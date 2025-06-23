@@ -10,7 +10,7 @@ import { TopCard } from "./components/ui/TopCard"
 export function MainPage() {
     return (
         <div className="flex min-h-svh flex-col gap-3 items-center justify-center bg-[linear-gradient(135deg,_#000000,_#0a0a0a)] ">
-            <TopCard />
+            <TopCard/>
             <div className="flex justify-center items-center md:gap-3 md:flex-row flex-col gap-5 pb-3">
                 <MainCard label="Encryption" placeholderLabel="Enter text you want to encrypt" button="Encrypt" inputId="encrypt-input" outputId="encrypt-output" />
                 <MainCard label="Decryption" placeholderLabel="Enter text you want to decrypt" button="Decrypt" inputId="decrypt-input" outputId="decrypt-output" />
