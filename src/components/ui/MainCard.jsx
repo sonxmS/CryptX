@@ -5,7 +5,7 @@ import { Card } from "./card";
 import { Textarea } from "./textarea";
 import { ConfirmAtom } from "@/atoms/ConfirmAtom";
 import { allDropdownDataSelector } from "@/atoms/selector";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import { alertMessageAtom, showAlertAtom } from "@/atoms/alertAtoms";
 import { CopiedButton } from "./CopiedButton";
@@ -60,7 +60,9 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
             setOutputResult(result)
         } catch (err) {
             console.error("Error:", err.message);
-            alert(err.message);
+            setAlertText("Corrupted value for encryption");
+            setShowAlert(true);
+            return null;
         }
     };
     const decryptVal = () => {
@@ -102,13 +104,15 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
             setOutputResult(result)
         } catch (err) {
             console.error("Decryption failed:", err.message);
-            alert(err.message);
+            setAlertText("Decryption failed: Possibly corrupted input for decryption");
+            setShowAlert(true);
+            return null;
         }
     };
 
     const setPrefix = (input, prefix) => {
         if (!prefix.trim()) {
-            setAlertText("Please enter value to be prefixed");
+            setAlertText("Encryption failed: Enter value to be prefixed");
             setShowAlert(true);
             return null;
         }
@@ -118,7 +122,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
 
     const setSuffix = (input, suffix) => {
         if (!suffix.trim()) {
-            setAlertText("Please enter value to be suffixed");
+            setAlertText("Encryption failed: Enter value to be suffixed");
             setShowAlert(true);
             return null;
         }
@@ -128,7 +132,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
 
     const aesEncryption = (input, key) => {
         if (!key.trim()) {
-            setAlertText("Please enter a valid key  for AES encryption.");
+            setAlertText("Encryption failed: Enter a valid key for AES encryption.");
             setShowAlert(true);
             return null;
         }
@@ -149,7 +153,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         if (input.startsWith(prefix)) {
             return input.slice(prefix.length);
         } else {
-            setAlertText(`Prefix "${prefix}" not found at the beginning of "${input}"`);
+            setAlertText(`Decryption failed: Prefix "${prefix}" not found at the beginning of "${input}"`);
             setShowAlert(true)
             return null;
         }
@@ -160,7 +164,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         if (input.endsWith(suffix)) {
             return input.slice(0, input.length - suffix.length);
         } else {
-            setAlertText(`Suffix "${suffix}" not found at the beginning of "${input}"`);
+            setAlertText(`Decryption failed: Suffix "${suffix}" not found at the beginning of "${input}"`);
             setShowAlert(true)
             return null;
         }
@@ -169,7 +173,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
 
     const aesDecryption = (encryptedText, key) => {
         if (!encryptedText || !key) {
-            setAlertText("Encrypted text and key are required for AES decryption.");
+            setAlertText("Decryption failed: Encrypted text and key are required for AES decryption.");
             setShowAlert(true)
             return null;
         }
@@ -179,7 +183,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         const decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
         if (!decrypted) {
-            setAlertText("Decryption failed. Possibly incorrect key or corrupted input.");
+            setAlertText("Decryption failed: Incorrect key or corrupted input.");
             setShowAlert(true)
             return null;
         }
@@ -188,7 +192,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
 
     const fromBase64 = (encoded) => {
         if (typeof encoded !== 'string') {
-            setAlertText("Encoded input must be a string");
+            setAlertText("Decryption failed: Encoded input must be a string");
             setShowAlert(true);
             return null;
         }
@@ -202,17 +206,23 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         }
     };
 
+    useEffect(() => {
+        if (copied) {
+            const timer = setTimeout(() => {
+                setCopied(false)
+            },1000);
+            return () => clearTimeout(timer);
+        }
+        
+    },[copied])
+
     const copyToClipboard = () => {
         if (!outputResult.trim()) {
             setAlertText("Encrypt/Decrypt to copy")
             setShowAlert(true)
             return;
         }
-        navigator.clipboard.writeText(outputResult);
-        setCopied(true)
-        setTimeout(() => {
-            setCopied(false)
-        }, 1000);
+        navigator.clipboard.writeText(outputResult).then(()=>{setCopied(true)})
     }
 
     return (<Card className="size-full transition-[border,box-shadow]  duration-300 ease-in-out px-4 p-7 bg-slate-50/5 backdrop-blur-[18px] border-white/10 hover:border-white w-90 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
@@ -221,7 +231,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         </Textarea>
         <Textarea id={outputId} placeholder="Your result would appear here" value={outputResult} className="text-slate-50 text-[13px] h-40 border-white/10" disabled></Textarea>
         <div className="flex gap-2 ">
-            <Button variant="ghost" onClick={button === "Encrypt" ? encryptVal : decryptVal} className="text-white border border-white/10 hover:border-white" >{button}</Button>
+            <Button variant="ghost" onClick={button === "Encrypt" ? encryptVal : decryptVal} className="text-white border border-white/10 "  >{button}</Button>
             <Button variant="ghost" onClick={copyToClipboard} size="icon" title="Copy to clipboard" className="hover:stroke-black border border-white/10 hover:border-white text-white" >{copied?<CopiedButton/>:<ButtonImg />}</Button>
         </div>
     </Card>)
