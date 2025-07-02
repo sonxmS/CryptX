@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Card({
+function CardComponent({
   className,
   ...props
 }) {
@@ -16,6 +16,9 @@ function Card({
       {...props} />
   );
 }
+
+const Card = React.memo(CardComponent)
+Card.displayName = "Card";
 
 function CardHeader({
   className,

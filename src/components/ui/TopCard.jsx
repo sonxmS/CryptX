@@ -12,7 +12,7 @@ import { DebugDropdownValues } from "@/Debugdropdown/debugdropdown";
 import { AlertComponent } from "./AlertComponent";
 import { ConfirmAtom } from "@/atoms/ConfirmAtom";
 import { allDropdownDataSelector } from "@/atoms/selector";
-import { showAlertAtom,alertMessageAtom } from "@/atoms/alertAtoms";
+import { showAlertAtom, alertMessageAtom } from "@/atoms/alertAtoms";
 
 export function TopCard() {
     const [dropdownId, setDropdownId] = useRecoilState(dropdownIdsAtom)
@@ -23,7 +23,7 @@ export function TopCard() {
     const setConfirmed = useSetRecoilState(ConfirmAtom)
     const [alertText, setAlertText] = useRecoilState(alertMessageAtom)
     const resetConfirmed = useResetRecoilState(ConfirmAtom);
-    
+
 
     const deleteLastDropdown = () => {
         setShowAlert(false);
@@ -73,8 +73,16 @@ export function TopCard() {
 
     return (
         <>
-            {showAlert && <AlertComponent alert={alertText} />}
-            <Card className="size-full transition-[border,box-shadow]  mt-5 mb-0.6 duration-300 ease-in-out flex-row justify-between p-2 bg-slate-50/5 backdrop-blur-[18px] border-white/10 min-w-60 w-fit max-w-6xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+            <div className="min-h-6 overflow-hidden">
+                <div
+                    className={`transform ${showAlert ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+                        }`}
+                >
+                    <AlertComponent alert={alertText} />
+                </div>
+            </div>
+
+            <Card className="size-full transition-[border,box-shadow]   mb-4 md:mb-0 duration-300 ease-in-out flex-row justify-between p-2 bg-slate-50/5 backdrop-blur-[18px] border-white/10 min-w-60 w-fit max-w-6xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
                 {dropdownId.map((id, index) => (
                     <Dropdown key={id} id={id} />
                 ))}
