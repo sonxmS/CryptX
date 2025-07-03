@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Card } from "./card";
 import { CheckButton } from "./CheckButton";
 import { Dot } from "./Dot";
@@ -25,7 +25,7 @@ export function TopCard() {
     const resetConfirmed = useResetRecoilState(ConfirmAtom);
 
 
-    const deleteLastDropdown = () => {
+    const deleteLastDropdown = useCallback(() => {
         setShowAlert(false);
         if (dropdownId.length === 0) return;
         resetDropDownData();
@@ -34,10 +34,10 @@ export function TopCard() {
         if (updated.length === 0) {
             resetConfirmed();
         }
-    }
+    },[setDropdownId,setShowAlert,dropdownId])
 
 
-    const addDropDown = () => {
+    const addDropDown = useCallback(() => {
         setShowAlert(false);
         if (dropdownId.length === 0 || lastData?.type) {
             const id = Date.now();
@@ -48,9 +48,9 @@ export function TopCard() {
             setAlertText("Please fill out the previous option before adding a new one")
             setShowAlert(true)
         }
-    }
+    },[setShowAlert,dropdownId,setDropdownId,setAlertText,lastData])
 
-    const showTextarea = () => {
+    const showTextarea = useCallback(() => {
         if (dropdownId.length === 0) {
             setAlertText("You must add at least one option before using the textarea");
             setShowAlert(true);
@@ -62,14 +62,14 @@ export function TopCard() {
             return false;
         }
         return true;
-    }
+    },[dropdownId, lastData, setAlertText, setShowAlert])
 
-    const handleCheck = () => {
+    const handleCheck = useCallback(() => {
         setShowAlert(false);
         if (showTextarea()) {
             setConfirmed(true);
         }
-    }
+    },[setShowAlert,setConfirmed,showTextarea])
 
     return (
         <>
@@ -82,7 +82,7 @@ export function TopCard() {
                 </div>
             </div>
 
-            <Card className="size-full transition-[border,box-shadow]   mb-4 md:mb-0 duration-300 ease-in-out flex-row justify-between p-2 bg-slate-50/5 backdrop-blur-[18px] border-white/10 min-w-60 w-fit max-w-6xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+            <Card className="size-full transition-[border,box-shadow] hover:border-white mb-4 md:mb-0 duration-300 ease-in-out flex-row justify-between p-2 bg-slate-50/5 backdrop-blur-[18px] border-white/10 min-w-60 w-fit max-w-6xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
                 {dropdownId.map((id, index) => (
                     <Dropdown key={id} id={id} />
                 ))}

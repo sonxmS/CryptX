@@ -69,7 +69,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         try {
             setShowAlert(false)
             if (!Input.trim()) {
-                setAlertText("Please enterinput text before decrypting.");
+                setAlertText("Please enter input text before decrypting.");
                 setShowAlert(true);
                 return;
             }

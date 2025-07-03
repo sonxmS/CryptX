@@ -16,7 +16,6 @@ import { dropdowndataFamily } from "@/atoms/dropdownAtom";
 import { useRecoilState } from "recoil";
 
 export const Dropdown = React.memo(function Dropdown({ id }) {
-
     const [data, setData] = useRecoilState(dropdowndataFamily(id))
     const [inputValue, setInputValue] = useState("")
     const [open, setOpen] = useState(true)
@@ -25,9 +24,6 @@ export const Dropdown = React.memo(function Dropdown({ id }) {
         setOpen(false)
     }
 
-    useEffect(() => {
-        setOpen(true);
-    }, []);
     return (
 
         <div>
