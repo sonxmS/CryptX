@@ -5,51 +5,62 @@ import { Card } from "./card";
 import { Textarea } from "./textarea";
 import { ConfirmAtom } from "@/atoms/ConfirmAtom";
 import { allDropdownDataSelector } from "@/atoms/selector";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CryptoJS from "crypto-js";
 import { alertMessageAtom, showAlertAtom } from "@/atoms/alertAtoms";
 import { CopiedButton } from "./CopiedButton";
-
+import throttle from "lodash/throttle";
+import { TextareaComponent } from "./TextArea";
+import { CopyButtonWithIcon } from "./CopyButtonWithIcon.jsx";
+import { EncryptDecryptButton } from "./EncryptDecryptButton";
 
 
 export function MainCard({ label, placeholderLabel, button, inputId, outputId }) {
     const allDropdowns = useRecoilValue(allDropdownDataSelector);
-    const [Input, setInput] = useState("")
+    const input = useRef("")
     const isConfirmed = useRecoilValue(ConfirmAtom)
     const [outputResult, setOutputResult] = useState("")
     const setShowAlert = useSetRecoilState(showAlertAtom);
     const setAlertText = useSetRecoilState(alertMessageAtom)
-    const [copied,setCopied] = useState(false)
+    const [copied, setCopied] = useState(false)
+
+
+    const throttledSetInput = useMemo(() => {
+        return throttle((val) => {
+            input.current=val;
+        }, 1000);
+    }, []);
+
     const encryptVal = () => {
         try {
 
-            if (!Input.trim()) {
-                setAlertText("Please enter some input text before encrypting.");
+            if (!input.current.trim()) {
+                setAlertText("Please enter input text before encrypting.");
                 setShowAlert(true);
                 return;
             }
 
-            let result = Input;
-
+            let result = input.current;
+            console.log(input)
             allDropdowns.forEach((dropdown) => {
                 const { type, value } = dropdown;
 
                 switch (type) {
                     case "Add prefix":
                         result = setPrefix(result, value);
-                        if(!result) return;
+                        if (!result) return;
                         break;
                     case "Add suffix":
                         result = setSuffix(result, value);
-                        if(!result) return;
+                        if (!result) return;
                         break;
                     case "AES Encryption":
                         result = aesEncryption(result, value);
-                        if(!result) return;
+                        if (!result) return;
                         break;
                     case "Base64 Encoding":
                         result = toBase64(result);
-                        if(!result) return;
+                        if (!result) return;
                         break;
                     default:
                         throw new Error(`Unknown transformation type: ${type}`);
@@ -68,13 +79,13 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
     const decryptVal = () => {
         try {
             setShowAlert(false)
-            if (!Input.trim()) {
+            if (!input.current.trim()) {
                 setAlertText("Please enter input text before decrypting.");
                 setShowAlert(true);
                 return;
             }
 
-            let result = Input;
+            let result = input.current;
 
             [...allDropdowns].reverse().forEach(dropdown => {
                 const { type, value } = dropdown;
@@ -82,15 +93,15 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
                 switch (type) {
                     case "Add prefix":
                         result = removePrefix(result, value);
-                        if(!result)return;
+                        if (!result) return;
                         break;
                     case "Add suffix":
                         result = removeSuffix(result, value);
-                        if(!result)return;
+                        if (!result) return;
                         break;
                     case "AES Encryption":
                         result = aesDecryption(result, value);
-                        if(!result)return;
+                        if (!result) return;
                         break;
                     case "Base64 Encoding":
                         result = fromBase64(result);
@@ -164,7 +175,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         if (input.endsWith(suffix)) {
             return input.slice(0, input.length - suffix.length);
         } else {
-            setAlertText(`Decryption failed: Suffix "${suffix}" not found at the beginning of "${input}"`);
+            setAlertText(`Decryption failed: Suffix "${suffix}" not found at the end of "${input}"`);
             setShowAlert(true)
             return null;
         }
@@ -210,11 +221,11 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         if (copied) {
             const timer = setTimeout(() => {
                 setCopied(false)
-            },1000);
+            }, 1000);
             return () => clearTimeout(timer);
         }
-        
-    },[copied])
+
+    }, [copied])
 
     const copyToClipboard = () => {
         if (!outputResult.trim()) {
@@ -222,17 +233,20 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
             setShowAlert(true)
             return;
         }
-        navigator.clipboard.writeText(outputResult).then(()=>{setCopied(true)})
+        navigator.clipboard.writeText(outputResult).then(() => { setCopied(true) })
     }
-    
+
     return (<Card className="size-full transition-[border,box-shadow]  duration-300 ease-in-out  p-7 bg-slate-50/5 backdrop-blur-[18px] border-white/10 hover:border-white w-90 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
         <label htmlFor={inputId} className="text-slate-50">{label}</label>
-        <Textarea disabled={!isConfirmed} onChange={(e) => (setInput(e.target.value))} title={!isConfirmed ? "Please enter transformation options and press the ✓ (check) button to enable this field" : ""} id={inputId} placeholder={placeholderLabel} className="text-slate-50 text-[13px] transition-[border] duration-200 ease-in-out h-40 border-white/10 ">
-        </Textarea>
-        <Textarea id={outputId} placeholder="Your result would appear here" value={outputResult} onChange={(e) => setOutputResult(e.target.value)} className="text-slate-50 text-[13px] h-40 border-white/10" disabled={!isConfirmed}></Textarea>
+        <TextareaComponent disabled={!isConfirmed} ref={input} onChange={(e)=>(throttledSetInput(e.target.value))} title={!isConfirmed ? "Please enter transformation options and press the ✓ (check) button to enable this field" : ""} id={inputId} placeholder={placeholderLabel} className="text-slate-50 text-[13px] transition-[border] duration-200 ease-in-out h-40 border-white/10 ">
+        </TextareaComponent>
+        <TextareaComponent id={outputId} placeholder="Your result would appear here" value={outputResult} onChange={(e) => setOutputResult(e.target.value)} className="text-slate-50 text-[13px] h-40 border-white/10" disabled={!isConfirmed}></TextareaComponent>
         <div className="flex gap-2 ">
-            <Button variant="ghost" onClick={button === "Encrypt" ? encryptVal : decryptVal} className="text-white border border-white/10 "  >{button}</Button>
-            <Button variant="ghost" onClick={copyToClipboard} size="icon" title="Copy to clipboard" className="hover:stroke-black border border-white/10 hover:border-white text-white" >{copied?<CopiedButton/>:<ButtonImg />}</Button>
+            <EncryptDecryptButton
+                onClick={button === "Encrypt" ? encryptVal : decryptVal}
+                label={button}
+            />
+            <CopyButtonWithIcon onClick={copyToClipboard} copied={copied} />
         </div>
     </Card>)
 }

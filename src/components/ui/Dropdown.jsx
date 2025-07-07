@@ -28,7 +28,7 @@ export const Dropdown = React.memo(function Dropdown({ id }) {
 
         <div>
             <DropdownMenu open={open} onOpenChange={setOpen}>
-                <DropdownMenuTrigger className="text-white text-sm font-medium pr-1 pl-1 pt-0.5 pb-0.5 border border-white/10 rounded-lg hover:bg-accent hover:text-accent-foreground">
+                <DropdownMenuTrigger className="text-white text-sm font-medium pr-2 pl-2 pt-1 pb-1 border border-white/10 rounded-[10px] hover:bg-accent hover:text-accent-foreground">
                     {data.type || "Select option"}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-zinc-950 text-white border-white/10">

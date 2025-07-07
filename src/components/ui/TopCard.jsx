@@ -82,11 +82,11 @@ export function TopCard() {
                 </div>
             </div>
 
-            <Card className="size-full transition-[border,box-shadow] hover:border-white mb-4 md:mb-0 duration-300 ease-in-out flex-row justify-between p-2 bg-slate-50/5 backdrop-blur-[18px] border-white/10 min-w-60 w-fit max-w-6xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+            <Card className="size-full transition-[border,box-shadow] hover:border-white  md:mb-0 duration-300 ease-in-out flex-row justify-between p-2 bg-slate-50/5 backdrop-blur-[18px] border-white/10 min-w-60 w-fit max-w-6xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
                 {dropdownId.map((id, index) => (
                     <Dropdown key={id} id={id} />
                 ))}
-                <div className="flex gap-1 ">
+                <div className="flex gap-1 items-center">
                     <PlusButton onClick={addDropDown} />
                     <CheckButton onClick={handleCheck} />
                     <CrossButton onClick={deleteLastDropdown} />
