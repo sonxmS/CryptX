@@ -236,7 +236,7 @@ export function MainCard({ label, placeholderLabel, button, inputId, outputId })
         navigator.clipboard.writeText(outputResult).then(() => { setCopied(true) })
     }
 
-    return (<Card className="size-full transition-[border,box-shadow]  duration-300 ease-in-out  p-7 bg-slate-50/5 backdrop-blur-[18px] border-white/10 hover:border-white w-90 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+    return (<Card className="size-full transition-[border,box-shadow]  duration-300 ease-in-out  p-7 bg-slate-50/5 backdrop-blur-[18px] border-white/10 hover:border-white w-[120%] lg:w-90 xl:w-140 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
         <label htmlFor={inputId} className="text-slate-50">{label}</label>
         <TextareaComponent disabled={!isConfirmed} ref={input} onChange={(e)=>(throttledSetInput(e.target.value))} title={!isConfirmed ? "Please enter transformation options and press the ✓ (check) button to enable this field" : ""} id={inputId} placeholder={placeholderLabel} className="text-slate-50 text-[13px] transition-[border] duration-200 ease-in-out h-40 border-white/10 ">
         </TextareaComponent>
