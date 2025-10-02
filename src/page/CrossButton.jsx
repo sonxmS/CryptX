@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import React, { useMemo } from "react";
-import { Button } from "./button";
 
 export const CrossButton=React.memo(function CrossButton({onClick}) {
     return (

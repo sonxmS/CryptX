@@ -1,5 +1,5 @@
 import React from "react";
-import { Textarea } from "./textarea";
+import { Textarea } from "../components/ui/textarea";
 
 export const TextareaComponent = React.memo(React.forwardRef(function TextareaComponent(
     {

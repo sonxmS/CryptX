@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "./button";
-import { TickImage } from "./tickImage";
+import { Button } from "@/components/ui/button";
+import { TickImage } from "@/components/ui/tickImage";
 
 export  const CheckButton = React.memo(function CheckButton({onClick}) {
     return(

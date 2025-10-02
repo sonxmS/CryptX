@@ -9,11 +9,11 @@ import {
     DropdownMenuSubContent
 
 } from "@/components/ui/dropdown-menu"
-import { Textarea } from "./textarea";
-import { Button } from "./button"
 import React, { useEffect, useMemo, useState } from "react";
 import { dropdowndataFamily } from "@/atoms/dropdownAtom";
 import { useRecoilState } from "recoil";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export const Dropdown = React.memo(function Dropdown({ id }) {
     const [data, setData] = useRecoilState(dropdowndataFamily(id))

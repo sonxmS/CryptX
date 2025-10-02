@@ -1,5 +1,3 @@
-import { Button } from "./button";
-import { TickImage } from "./tickImage";
 
 export function CopiedButton({ onClick }) {
     return (
