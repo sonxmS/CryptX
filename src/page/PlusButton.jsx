@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Button } from "./button";
 import { PlusImage } from "./plusImage";
+import { Button } from "@/components/ui/button";
 
 export const PlusButton = React.memo(function PlusButton({ onClick }) {
     return (

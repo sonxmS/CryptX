@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Button } from "./button";
+import { Button } from "../components/ui/button";
 import { ButtonImg } from "./ButtonImg";
 import { CopiedButton } from "./CopiedButton";
 

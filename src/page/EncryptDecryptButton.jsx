@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
-import { Button } from "./button";
 
 export const EncryptDecryptButton = React.memo(function EncryptDecryptButton({
     onClick,
