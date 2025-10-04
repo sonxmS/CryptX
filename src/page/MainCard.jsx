@@ -244,7 +244,7 @@ export function MainCard({
   return (
   <Card
     className="w-full max-w-md lg:max-w-lg xl:max-w-2xl transition-[border,box-shadow] duration-300 ease-in-out 
-               p-8 md:p-10 bg-slate-50/5 backdrop-blur-[18px] border-white/10 hover:border-white 
+               p-8 md:p-10 bg-slate-50/5 backdrop-blur-[18px] border-white/10 hover:border-white/30 
                shadow-[0_0_20px_rgba(0,255,255,0.05)] flex flex-col gap-5"
   >
     {/* Label */}
