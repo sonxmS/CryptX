@@ -1,9 +1,11 @@
 import { MainCard } from "./MainCard";
+import { Navbar } from "./Navbar";
 import { TopCard } from "./TopCard";
 
 export function MainPage() {
   return (
     <div className="flex min-h-svh flex-col items-center bg-[linear-gradient(135deg,_#070200,_#0a0a0a)] px-4">
+        <Navbar/>
       <div className="w-full max-w-7xl md:mt-6 mb-10 flex flex-col items-center">
         <TopCard />
       </div>

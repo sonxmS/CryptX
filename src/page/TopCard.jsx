@@ -93,16 +93,27 @@ export function TopCard() {
         </div>
       </div>
 
-      <Card className="size-full w-full transition-[border,box-shadow] hover:border-white  md:mb-0 duration-300 ease-in-out flex-row justify-between p-2 md:px-6 md:py-3 bg-slate-50/5 backdrop-blur-[18px] border-white/10  max-w-md md:max-w-7xl shadow-[0_0_20px_rgba(0,255,255,0.05)]">
-        {dropdownId.map((id, index) => (
-          <Dropdown key={id} id={id} />
-        ))}
+      <Card
+        className="size-full w-full transition-[border,box-shadow] hover:border-white/30  
+             md:mb-0 duration-300 ease-in-out flex flex-row justify-between items-center 
+             p-2 md:px-6 md:py-3 bg-slate-50/5 backdrop-blur-[18px] border-white/10  
+             max-w-md md:max-w-7xl shadow-[0_0_20px_rgba(0,255,255,0.05)]"
+      >
+        {/* Left side - dropdowns */}
+        <div className="flex flex-wrap gap-2">
+          {dropdownId.map((id, index) => (
+            <Dropdown key={id} id={id} />
+          ))}
+        </div>
+
+        {/* Right side - buttons */}
         <div className="flex gap-2 items-center">
           <PlusButton onClick={addDropDown} />
           <CheckButton onClick={handleCheck} />
           <CrossButton onClick={deleteLastDropdown} />
         </div>
       </Card>
+
       {/* <DebugDropdownValues /> */}
     </>
   );
