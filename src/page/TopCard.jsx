@@ -47,10 +47,10 @@ export function TopCard() {
       setShowAlert(false);
     } else {
       console.log(
-        "Please fill out the previous dropdown before adding a new one."
+        "Please fill out the previous dropdown."
       );
       setAlertText(
-        "Please fill out the previous option before adding a new one"
+        "Please fill out the previous option"
       );
       setShowAlert(true);
     }
@@ -59,14 +59,14 @@ export function TopCard() {
   const showTextarea = useCallback(() => {
     if (dropdownId.length === 0) {
       setAlertText(
-        "You must add at least one option before using the textarea"
+        "You must add atleast one option to use textarea"
       );
       setShowAlert(true);
       return false;
     }
     if (!lastData?.type) {
       setAlertText(
-        "Please select a transform method or remove the option before proceeding"
+        "Please select a transform method"
       );
       setShowAlert(true);
       return false;
@@ -85,7 +85,7 @@ export function TopCard() {
     <>
       <div className="min-h-6 overflow-hidden w-full">
         <div
-          className={`transform ${
+          className={` ${
             showAlert ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
           }`}
         >
