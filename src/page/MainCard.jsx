@@ -274,7 +274,7 @@ export function MainCard({
       placeholder="Your result would appear here"
       value={outputResult}
       onChange={(e) => setOutputResult(e.target.value)}
-      className="text-slate-50 text-lg min-h-60 border-white/10 rounded-md"
+      className="text-slate-50 text-sm min-h-60 border-white/10 rounded-md"
       disabled={!isConfirmed}
     />
 
