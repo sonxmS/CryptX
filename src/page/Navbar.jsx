@@ -9,7 +9,7 @@ export const Navbar = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               </div>
-              <span className="text-3xl font-bold bg-white bg-clip-text text-transparent w-full items-start">
+              <span className="text-xl md:text-3xl font-bold bg-white bg-clip-text text-transparent w-full items-start">
                 CryptX
               </span>
           </div>
