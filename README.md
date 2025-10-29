@@ -1,4 +1,4 @@
-#  Text Encryption & Transformation Web App
+#  CryptX Web App
 
 A modern **React + Tailwind CSS** web application for performing text encryption, decryption, and transformations with support for multiple operations like **AES encryption**, **Base64 encoding/decoding**, and more.  
 The app features a clean UI, dynamic input handling, and real-time transformations.
@@ -43,4 +43,5 @@ npm install
 
 # Start development server
 npm run dev
+
 
