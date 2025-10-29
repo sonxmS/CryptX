@@ -36,11 +36,11 @@ Clone the repository and install dependencies:
 
 ```bash
 # Clone repo
-git clone https://github.com/your-username/text-encryptor.git
-cd text-encryptor
+git clone https://github.com/sonxmS/CryptX.git
+cd CryptX
 
-# Install dependencies
 npm install
 
 # Start development server
 npm run dev
+
