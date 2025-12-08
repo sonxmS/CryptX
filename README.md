@@ -7,21 +7,21 @@ The app features a clean UI, dynamic input handling, and real-time transformatio
 
 ##  Features
 
-- 🔑 **AES Encryption & Decryption** – Securely encrypt and decrypt text.
-- 🧩 **Base64 Encoding & Decoding** – Encode/Decode strings instantly.
-- 🔄 **Chained Transformations** – Apply multiple operations in sequence via dynamic dropdowns.
-- 📝 **Live Input Handling** – Results update dynamically as you type.
-- 📋 **One-click Copy** – Copy results to clipboard with a button.
+-  **AES Encryption & Decryption** – Securely encrypt and decrypt text.
+-  **Base64 Encoding & Decoding** – Encode/Decode strings instantly.
+-  **Chained Transformations** – Apply multiple operations in sequence via dynamic dropdowns.
+-  **Live Input Handling** – Results update dynamically as you type.
+-  **One-click Copy** – Copy results to clipboard with a button.
 
 ---
 
-## 🖼️ Preview
+##  Preview
 
 ![App Screenshot](./public/Preview.png)  
 
 ---
 
-## 🚀 Tech Stack
+##  Tech Stack
 
 - **Frontend:** [React](https://reactjs.org/) (Vite/CRA)  
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)  
@@ -30,7 +30,7 @@ The app features a clean UI, dynamic input handling, and real-time transformatio
 
 ---
 
-## 📦 Installation
+##  Installation
 
 Clone the repository and install dependencies:
 
@@ -43,5 +43,6 @@ npm install
 
 # Start development server
 npm run dev
+
 
 
